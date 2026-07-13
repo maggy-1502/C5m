@@ -84,7 +84,7 @@
     <div id="bienvenida" onclick="iniciarExperienciaAmor()" onmousedown="iniciarExperienciaAmor()">
         <div class="corazon-latido" id="icono-central">❤️</div>
         <div class="texto-bienvenida" id="txt1">Para el hombre más lindo del mundo ❤️</div>
-        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amor.</div>
+        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amorcito.</div>
     </div>
 
     <!-- CONTENIDO GENERAL -->
@@ -111,7 +111,7 @@ Para siempre, Yo
         <!-- MOTOR DE PROGRAMACIÓN INTEGRADO DIRECTAMENTE -->
     <script>
         // 1. CONFIGURACIÓN: Coloca aquí el año, mes y día exacto de su aniversario.
-        const fechaInicio = new Date(2026, 1, 15, 0, 0, 0);
+        const fechaInicio = new Date(2026, 1, 12, 20, 0, 0);
 
         const textoAmor = `Hola, mi amorcito. ❤️
 
@@ -229,28 +229,29 @@ Felices cinco meses, mi niño de ojos bonitos. ❤️`;
                 let i = 0;
 
                 function escribir() {
-                    if (i < caracteres.length) {
-                        contenedorTexto.innerHTML += caracteres[i];
-                        let actual = caracteres[i];
-                        i++;
-                        
-                        let delay = 35;
-                        if (actual === '.' || actual === ',') delay = 250;
-                        
-                        setTimeout(escribir, delay);
-                    } else {
-                        document.getElementById('firma-carta').style.display = 'block';
-                        document.getElementById('btn-cerrar-carta').style.display = 'block';
-                        document.getElementById('seccion-contador').style.opacity = 1;
-                        document.getElementById('seccion-galeria').style.opacity = 1;
-                        document.getElementById('seccion-final').style.opacity = 1;
-                        iniciarContador();
-                    }
-                }
-                escribir();
-            }, 1600);
-        }
-
+    if (i < caracteres.length) {
+        // CORRECCIÓN: Usamos caracteres[i] para que SOLO escriba la carta letra por letra
+        contenedorTexto.innerHTML += caracteres[i]; 
+        let actual = caracteres[i];
+        i++;
+        
+        let delay = 35;
+        if (actual === '.' || actual === ',') delay = 250;
+        
+        setTimeout(escribir, delay);
+    } else {
+        // Cuando termina de escribir, muestra la firma y el botón de guardar
+        document.getElementById('firma-carta').style.display = 'block';
+        document.getElementById('btn-cerrar-carta').style.display = 'block';
+        
+        // Muestra las secciones de abajo de forma limpia
+        document.getElementById('seccion-contador').style.opacity = 1;
+        document.getElementById('seccion-galeria').style.opacity = 1;
+        document.getElementById('seccion-final').style.opacity = 1;
+        iniciarContador();
+    }
+}
+                
         function cerrarCarta() {
             document.getElementById('sobre').classList.remove('abierto');
         }
