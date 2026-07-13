@@ -15,7 +15,7 @@ Quiero seguir escribiendo esta historia contigo durante muchísimo tiempo. Si Di
 
 Eres el amor de mi vida y no imagino un futuro en el que no estés tú. No sé qué sería de mí sin ti, porque contigo encontré un hogar, un mejor amigo y el amor más bonito que he conocido.
 
-Le pido a Dios que siempre nos cuide, que bendiga nuestra relación, que nos ayube a superar cualquier dificultad y que nos permita celebrar muchos meses, años y toda una vida juntos.
+Le pido a Dios que siempre nos cuide, que bendiga nuestra relación, que nos ayude a superar cualquier dificultad y que nos permita celebrar muchos meses, años y toda una vida juntos.
 
 Gracias por existir, por llegar a mi vida y por convertir estos cinco meses en los más felices que he vivido.
 
