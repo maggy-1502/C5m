@@ -125,15 +125,12 @@ function abrirCarta() {
                 
                 setTimeout(escribir, delay);
             } else {
-                document.getElementById('firma-carta').style.display = 'block';
-                document.getElementById('seccion-contador').style.opacity = 1;
-                document.getElementById('seccion-galeria').style.opacity = 1;
-                document.getElementById('seccion-final').style.opacity = 1;
-                iniciarContador();
-            }
-        }
-        escribir();
-    }, 1600);
+    document.getElementById('firma-carta').style.display = 'block';
+    document.getElementById('btn-cerrar-carta').style.display = 'block'; // Muestra el botón al terminar
+    document.getElementById('seccion-contador').style.opacity = 1;
+    document.getElementById('seccion-galeria').style.opacity = 1;
+    document.getElementById('seccion-final').style.opacity = 1;
+    iniciarContador();
 }
 
 function iniciarContador() {
@@ -186,3 +183,7 @@ document.addEventListener('touchmove', (e) => {
         setTimeout(() => chispa.remove(), 500);
     }
 }, { passive: true });
+            function cerrarCarta() {
+    // Cierra el sobre visualmente y oculta la hoja
+    document.getElementById('sobre').classList.remove('abierto');
+document.getElementById('sobre').style.opacity = '0.3';
