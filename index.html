@@ -69,7 +69,7 @@
     font-weight: 600;
     cursor: pointer;
     box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease, opacity 0.5s ease;
+    transition: transform 0.3s ease;
 }
 .btn-cerrar-carta:active {
     transform: scale(0.95);
@@ -100,9 +100,10 @@
                 <div class="tapa"></div>
                 <div class="sello" id="sello-carta" onclick="abrirCarta()">❤️</div>
                 <div class="hoja-carta">
-                    <div class="texto-carta" id="texto-tipeado"></div>
-                    <div class="firma" id="firma-carta" style="display:none;">Para siempre, Yo</div>
-                    <!-- NUEVO: Botón para guardar la carta -->
+    <div class="texto-carta" id="texto-tipeado"></div>
+    <div class="firma" id="firma-carta" style="display:none;">Para siempre, Yo</div>
+    
+    <!-- BOTÓN CORREGIDO -->
     <button id="btn-cerrar-carta" class="btn-cerrar-carta" onclick="cerrarCarta()" style="display: none;">Guardar carta ❤️</button>
 </div>
                 </div>
