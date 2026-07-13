@@ -56,6 +56,24 @@
         .texto-final-2 { font-family: 'Great Vibes', cursive; font-size: 36px; color: var(--dorado); }
         .gota-corazon { position: fixed; top: -20px; color: #ffb7b2; font-size: 20px; pointer-events: none; z-index: 9999; animation: caidaCorazones 3s linear forwards; }
         @keyframes caidaCorazones { to { transform: translateY(105vh) rotate(360deg); } }
+        .btn-cerrar-carta {
+    display: block;
+    margin: 20px auto 0 auto;
+    padding: 10px 20px;
+    background: #d9383a;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transition: transform 0.3s ease, opacity 0.5s ease;
+}
+.btn-cerrar-carta:active {
+    transform: scale(0.95);
+}
     </style>
 </head>
 <body>
@@ -84,6 +102,9 @@
                 <div class="hoja-carta">
                     <div class="texto-carta" id="texto-tipeado"></div>
                     <div class="firma" id="firma-carta" style="display:none;">Para siempre, Yo</div>
+                    <!-- NUEVO: Botón para guardar la carta -->
+    <button id="btn-cerrar-carta" class="btn-cerrar-carta" onclick="cerrarCarta()" style="display: none;">Guardar carta ❤️</button>
+</div>
                 </div>
             </div>
         </div>
