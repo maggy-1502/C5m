@@ -6,15 +6,15 @@
     <title>Felices 5 Meses ❤️</title>
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=Great+Vibes&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com" rel="stylesheet">
     <style>
         :root { --rosa-pastel: #ffb7b2; --durazno: #ffdac1; --lila: #e2cef4; --blanco: #ffffff; --dorado: #e6c687; --azul-noche: #0b132b; --morado-oscuro: #1c1a27; }
         * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
         body, html { width: 100%; overflow-x: hidden; font-family: 'Poppins', sans-serif; background: #000; color: #fff; scroll-behavior: smooth; }
-        #bienvenida { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 1s ease; padding: 20px; }
+        #bienvenida { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: #000; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; transition: opacity 1s ease; padding: 20px; cursor: pointer; }
         .corazon-latido { font-size: 70px; animation: latido 1.2s infinite; margin-bottom: 30px; }
         @keyframes latido { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
-        .texto-bienvenida { font-family: 'Great Vibes', cursive; font-size: 32px; color: var(--rosa-pastel); opacity: 0; position: absolute; transition: opacity 1s ease; width: 90%; }
+        .texto-bienvenida { font-family: 'Great Vibes', cursive; font-size: 32px; color: var(--rosa-pastel); opacity: 0; position: absolute; transition: opacity 1s ease; width: 90%; pointer-events: none; }
         .contenedor-principal { position: relative; width: 100vw; background: linear-gradient(to bottom, #ff9a9e 0%, #fecfef 10%, #fbc2eb 25%, #a18cd1 45%, #251c4a 65%, #0b132b 85%, #050814 100%); display: flex; flex-direction: column; align-items: center; padding-bottom: 100px; }
         .estrellas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: transparent; pointer-events: none; z-index: 1; }
         .estrella { position: absolute; background: white; border-radius: 50%; animation: parpadeo 2s infinite ease-in-out; }
@@ -22,18 +22,25 @@
         .corazon-flotante { position: absolute; color: rgba(255, 183, 178, 0.6); pointer-events: none; z-index: 2; animation: flotar linear infinite; }
         @keyframes flotar { 0% { transform: translateY(105vh) scale(0.5); opacity: 0; } 10% { opacity: 0.8; } 90% { opacity: 0.8; } 100% { transform: translateY(-10vh) scale(1.2); opacity: 0; } }
         .botones-fijos { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; gap: 15px; }
-        .btn-circular { width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); color: white; font-size: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
-        .seccion-sobre { min-height: 80vh; display: flex; justify-content: center; align-items: center; z-index: 10; perspective: 1000px; margin-bottom: 150px; }
+        .btn-circular { width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); color: white; font-size: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; }
+        
+        /* CORRECCIÓN DE ALTURA Y FLUJO DEL SOBRE */
+        .seccion-sobre { min-height: 80vh; display: flex; justify-content: center; align-items: center; z-index: 10; perspective: 1000px; margin-bottom: 100px; padding-top: 50px; }
         .sobre-wrapper { position: relative; width: 280px; height: 180px; background: #f4d068; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 0 0 8px 8px; }
         .sobre-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 90px solid #e1be53; z-index: 3; }
         .sobre-wrapper::after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid #edd071; border-right: 140px solid #edd071; border-top: 90px solid transparent; z-index: 4; border-radius: 0 0 8px 8px; }
         .tapa { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 95px solid #dca743; transform-origin: top; transition: transform 0.6s ease; z-index: 5; }
         .sello { position: absolute; top: 75px; left: 120px; width: 40px; height: 40px; background: #d9383a; border-radius: 50%; z-index: 6; display: flex; justify-content: center; align-items: center; color: white; font-size: 18px; box-shadow: 0 4px 8px rgba(0,0,0,0.3); cursor: pointer; transition: transform 0.3s ease; }
         .sobre-wrapper.abierto .tapa { transform: rotateX(180deg); z-index: 2; }
+        
         .hoja-carta { position: absolute; top: 10px; left: 15px; width: 250px; min-height: 150px; background: var(--blanco); color: #333; padding: 25px 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(0); transition: all 1s ease 0.6s; z-index: 3; opacity: 0; font-size: 14px; line-height: 1.6; background-image: radial-gradient(var(--durazno) 1px, transparent 0); background-size: 20px 20px; }
+        
+        /* CORRECCIÓN: POSICIÓN DINÁMICA DE LA CARTA AL ABRIRSE */
         .sobre-wrapper.abierto .hoja-carta { opacity: 1; transform: translateY(-80px) scale(1.05); z-index: 100; width: 320px; left: -20px; min-height: 450px; overflow-y: visible; position: relative; }
+        
         .texto-carta { font-family: 'Poppins', sans-serif; font-weight: 400; text-align: left; white-space: pre-line; }
         .firma { font-family: 'Great Vibes', cursive; font-size: 24px; text-align: right; margin-top: 15px; color: #b85770; }
+        
         .seccion-contador { margin: 60px 0; text-align: center; opacity: 0; transition: opacity 1s ease; width: 90%; }
         .titulo-seccion { font-family: 'Great Vibes', cursive; font-size: 42px; color: var(--durazno); margin-bottom: 20px; }
         .cuadrícula-contador { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 10px; }
@@ -56,88 +63,48 @@
         .texto-final-2 { font-family: 'Great Vibes', cursive; font-size: 36px; color: var(--dorado); }
         .gota-corazon { position: fixed; top: -20px; color: #ffb7b2; font-size: 20px; pointer-events: none; z-index: 9999; animation: caidaCorazones 3s linear forwards; }
         @keyframes caidaCorazones { to { transform: translateY(105vh) rotate(360deg); } }
-        .btn-cerrar-carta {
-    display: block;
-    margin: 20px auto 0 auto;
-    padding: 10px 20px;
-    background: #d9383a;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    font-family: 'Poppins', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-    transition: transform 0.3s ease;
-}
-.btn-cerrar-carta:active {
-    transform: scale(0.95);
-}
+        
+        /* DISEÑO DE BOTÓN DE CIERRE */
+        .btn-cerrar-carta { display: block; margin: 20px auto 0 auto; padding: 10px 20px; background: #d9383a; color: white; border: none; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.3s ease; }
+        .btn-cerrar-carta:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-    <!-- LA COLA DE AUDIO QUE BUSCÁBAMOS FIJA AQUÍ ABAJO -->
+    <!-- REPRODUCTOR AUDIO -->
     <audio id="musica" src="like-you-do.mp3" loop></audio>
 
+    <!-- BOTONES SUPERIORES -->
     <div class="botones-fijos">
         <button class="btn-circular" id="btn-musica" onclick="toggleMusica()">▶</button>
         <button class="btn-circular" id="btn-noche" onclick="toggleModoNoche()">🌙</button>
     </div>
 
+    <!-- PANTALLA DE BIENVENIDA -->
     <div id="bienvenida" onclick="iniciarExperienciaAmor()" onmousedown="iniciarExperienciaAmor()">
         <div class="corazon-latido" id="icono-central">❤️</div>
         <div class="texto-bienvenida" id="txt1">Para el hombre más lindo del mundo ❤️</div>
-        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amorcito.</div>
+        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amor.</div>
     </div>
 
+    <!-- CONTENIDO GENERAL -->
     <div class="contenedor-principal" id="scroll-area">
         <div class="estrellas" id="capa-estrellas"></div>
 
+        <!-- CARTA Y SOBRE -->
         <div class="seccion-sobre">
             <div class="sobre-wrapper" id="sobre">
                 <div class="tapa"></div>
                 <div class="sello" id="sello-carta" onclick="abrirCarta()">❤️</div>
                 <div class="hoja-carta">
-    <div class="texto-carta" id="texto-tipeado"></div>
-    <div class="firma" id="firma-carta" style="display:none;">Para siempre, Yo</div>
-    
-    <!-- BOTÓN CORREGIDO -->
-    <button id="btn-cerrar-carta" class="btn-cerrar-carta" onclick="cerrarCarta()" style="display: none;">Guardar carta ❤️</button>
-</div>
-                </div>
-            </div>
-        </div>
-
-        <div class="seccion-contador" id="seccion-contador">
-            <h2 class="titulo-seccion">El tiempo a tu lado...</h2>
-            <div class="cuadrícula-contador">
-                <div class="bloque-tiempo"><div class="numero-tiempo">❤️ 5</div><div class="etiqueta-tiempo">Meses</div></div>
-                <div class="bloque-tiempo"><div class="numero-tiempo" id="c-dias">00</div><div class="etiqueta-tiempo">Días</div></div>
-                <div class="bloque-tiempo"><div class="numero-tiempo" id="c-horas">00</div><div class="etiqueta-tiempo">Horas</div></div>
-</div>
-        </div>
-
-        <!-- 7. GALERÍA DE FOTOS -->
-        <div class="seccion-galeria" id="seccion-galeria">
-            <h2 class="titulo-seccion">Nuestros Momentos</h2>
-            <div class="carrusel-horizontal">
-                <div class="foto-item"><img src="https://i.postimg.cc/mkyyvng9/IMG-20260522-WA0045.jpg" alt="1"></div>
-                <div class="foto-item"><img src="https://i.postimg.cc/yxyyMG8S/IMG-20260529-WA0077.jpg" alt="2"></div>
-                <div class="foto-item"><img src="https://i.postimg.cc/3NFFsqxv/IMG-20260522-WA0051.jpg" alt="3"></div>
-                <div class="foto-item"><img src="https://i.postimg.cc/J055fFzG/IMG-20260529-WA0089.jpg" alt="4"></div>
-            </div>
-        </div>
-
-        <!-- 11. FINAL DE LA PÁGINA -->
-        <div class="seccion-final" id="seccion-final">
-            <div class="gran-corazon">❤️</div>
-            <div class="texto-final-1">Felices 5 meses ❤️</div>
-            <div class="texto-final-2">Gracias por llegar a mi vida.<br>Te amo mucho muchote.</div>
-        </div>
-    </div>
-    <script src="script.js">
-    </script>
-</body>
-</html>
+Para siempre, Yo
+                    Guardar carta ❤️
+                    El tiempo a tu lado...
+                    ❤️ 5Meses
+                    00Días
+                    00Horas
+                    Nuestros Momentos
+                    ❤️
+                    Felices 5 meses ❤️
+                    Gracias por llegar a mi vida.
+                    Te amo mucho muchote.
