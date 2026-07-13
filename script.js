@@ -1,3 +1,8 @@
+// 1. CONFIGURACIÓN: Coloca aquí el año, mes y día exacto de su aniversario.
+// NOTA: Los meses en JavaScript empiezan en 0 (Enero=0, Febrero=1, Marzo=2, Abril=3, Mayo=4, Junio=5...)
+// Ejemplo: Si empezaron el 15 de Febrero de 2026, dejas: (2026, 1, 15)
+const fechaInicio = new Date(2026, 1, 12, 20, 0, 0);
+
 // TEXTO DE LA CARTA INYECTADO DIRECTAMENTE EN EL CEREBRO
 const textoAmor = `Hola, mi amorcito. ❤️
 
@@ -17,7 +22,7 @@ Eres el amor de mi vida y no imagino un futuro en el que no estés tú. No sé q
 
 Le pido a Dios que siempre nos cuide, que bendiga nuestra relación, que nos ayude a superar cualquier dificultad y que nos permita celebrar muchos meses, años y toda una vida juntos.
 
-Gracias por existir, por llegar a mi vida y por convertir estos cinco meses en los más felices que he vivido.
+Gracias por existen, por llegar a mi vida y por convertir estos cinco meses en los más felices que he vivido.
 
 Te amo con todo mi corazón.
 
@@ -33,7 +38,7 @@ function iniciarExperienciaAmor() {
     if (audio) {
         audio.play().then(() => {
             if (btnMusica) btnMusica.innerText = "⏸";
-        }).catch(e => console.log("Audio retenido"));
+        }).catch(e => console.log("Audio retenido por el navegador"));
     }
 
     document.getElementById('icono-central').style.display = 'none';
@@ -84,7 +89,7 @@ function toggleMusica() {
     const audio = document.getElementById('musica');
     const btnMusica = document.getElementById('btn-musica');
     if (audio && audio.paused) {
-        audio.play();
+        audio.play().catch(e => console.log(e));
         if (btnMusica) btnMusica.innerText = "⏸";
     } else if (audio) {
         audio.pause();
@@ -125,12 +130,20 @@ function abrirCarta() {
                 
                 setTimeout(escribir, delay);
             } else {
-    document.getElementById('firma-carta').style.display = 'block';
-    document.getElementById('btn-cerrar-carta').style.display = 'block'; // Muestra el botón al terminar
-    document.getElementById('seccion-contador').style.opacity = 1;
-    document.getElementById('seccion-galeria').style.opacity = 1;
-    document.getElementById('seccion-final').style.opacity = 1;
-    iniciarContador();
+                document.getElementById('firma-carta').style.display = 'block';
+                document.getElementById('btn-cerrar-carta').style.display = 'block'; // Muestra el botón aquí de forma segura
+                document.getElementById('seccion-contador').style.opacity = 1;
+                document.getElementById('seccion-galeria').style.opacity = 1;
+                document.getElementById('seccion-final').style.opacity = 1;
+                iniciarContador();
+            }
+        }
+        escribir();
+    }, 1600);
+}
+
+function cerrarCarta() {
+    document.getElementById('sobre').classList.remove('abierto');
 }
 
 function iniciarContador() {
@@ -139,10 +152,9 @@ function iniciarContador() {
         let diferencia = ahora - fechaInicio;
         let dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
         let horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        let minutes = Math.floor((diferencia % (1000 * 60 * 60)) / (1000 * 60));
+        
         document.getElementById('c-dias').innerText = dias < 10 ? '0' + dias : dias;
         document.getElementById('c-horas').innerText = horas < 10 ? '0' + horas : horas;
-        document.getElementById('c-mins').innerText = minutes < 10 ? '0' + minutes : minutes;
     }, 1000);
 }
 
@@ -173,8 +185,8 @@ function activarLluviaFinal() {
 }
 
 document.addEventListener('touchmove', (e) => {
-    if (e.touches && e.touches) {
-        let touch = e.touches;
+    if (e.touches && e.touches[0]) {
+        let touch = e.touches[0];
         let chispa = document.createElement('div');
         chispa.className = 'chispa';
         chispa.style.top = touch.pageY + 'px';
@@ -183,7 +195,3 @@ document.addEventListener('touchmove', (e) => {
         setTimeout(() => chispa.remove(), 500);
     }
 }, { passive: true });
-            function cerrarCarta() {
-    // Cierra el sobre visualmente y oculta la hoja
-    document.getElementById('sobre').classList.remove('abierto');
-document.getElementById('sobre').style.opacity = '0.3';
