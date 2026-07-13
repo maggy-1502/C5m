@@ -24,7 +24,6 @@
         .botones-fijos { position: fixed; top: 20px; right: 20px; z-index: 1000; display: flex; gap: 15px; }
         .btn-circular { width: 45px; height: 45px; border-radius: 50%; background: rgba(255,255,255,0.2); backdrop-filter: blur(5px); border: 1px solid rgba(255,255,255,0.4); color: white; font-size: 20px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); cursor: pointer; }
         
-        /* CORRECCIÓN DE ALTURA Y FLUJO DEL SOBRE */
         .seccion-sobre { min-height: 80vh; display: flex; justify-content: center; align-items: center; z-index: 10; perspective: 1000px; margin-bottom: 100px; padding-top: 50px; }
         .sobre-wrapper { position: relative; width: 280px; height: 180px; background: #f4d068; box-shadow: 0 20px 40px rgba(0,0,0,0.3); border-radius: 0 0 8px 8px; }
         .sobre-wrapper::before { content: ''; position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-bottom: 90px solid #e1be53; z-index: 3; }
@@ -34,8 +33,6 @@
         .sobre-wrapper.abierto .tapa { transform: rotateX(180deg); z-index: 2; }
         
         .hoja-carta { position: absolute; top: 10px; left: 15px; width: 250px; min-height: 150px; background: var(--blanco); color: #333; padding: 25px 15px; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); transform: translateY(0); transition: all 1s ease 0.6s; z-index: 3; opacity: 0; font-size: 14px; line-height: 1.6; background-image: radial-gradient(var(--durazno) 1px, transparent 0); background-size: 20px 20px; }
-        
-        /* CORRECCIÓN: POSICIÓN DINÁMICA DE LA CARTA AL ABRIRSE */
         .sobre-wrapper.abierto .hoja-carta { opacity: 1; transform: translateY(-80px) scale(1.05); z-index: 100; width: 320px; left: -20px; min-height: 450px; overflow-y: visible; position: relative; }
         
         .texto-carta { font-family: 'Poppins', sans-serif; font-weight: 400; text-align: left; white-space: pre-line; }
@@ -64,42 +61,38 @@
         .gota-corazon { position: fixed; top: -20px; color: #ffb7b2; font-size: 20px; pointer-events: none; z-index: 9999; animation: caidaCorazones 3s linear forwards; }
         @keyframes caidaCorazones { to { transform: translateY(105vh) rotate(360deg); } }
         
-        /* DISEÑO DE BOTÓN DE CIERRE */
         .btn-cerrar-carta { display: block; margin: 20px auto 0 auto; padding: 10px 20px; background: #d9383a; color: white; border: none; border-radius: 20px; font-family: 'Poppins', sans-serif; font-size: 14px; font-weight: 600; cursor: pointer; box-shadow: 0 4px 10px rgba(0,0,0,0.15); transition: transform 0.3s ease; }
         .btn-cerrar-carta:active { transform: scale(0.95); }
     </style>
 </head>
 <body>
 
-    <!-- REPRODUCTOR AUDIO -->
     <audio id="musica" src="like-you-do.mp3" loop></audio>
 
-    <!-- BOTONES SUPERIORES -->
     <div class="botones-fijos">
         <button class="btn-circular" id="btn-musica" onclick="toggleMusica()">▶</button>
         <button class="btn-circular" id="btn-noche" onclick="toggleModoNoche()">🌙</button>
     </div>
 
-    <!-- PANTALLA DE BIENVENIDA -->
-    <div id="bienvenida" onclick="iniciarExperienciaAmor()" onmousedown="iniciarExperienciaAmor()">
+    <!-- PANTALLA DE BIENVENIDA CON CLICK AUTOMÁTICO CORREGIDO -->
+    <div id="bienvenida" onclick="iniciarExperienciaAmor()">
         <div class="corazon-latido" id="icono-central">❤️</div>
-        <div class="texto-bienvenida" id="txt1">Para el hombre más lindo del mundo ❤️</div>
-        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amorcito.</div>
+        <div class="texto-bienvenida" id="txt1">Para el niño más bonito del mundo ❤️</div>
+        <div class="texto-bienvenida" id="txt2">Felices 5 meses, mi amor.</div>
     </div>
 
-    <!-- CONTENIDO GENERAL -->
     <div class="contenedor-principal" id="scroll-area">
         <div class="estrellas" id="capa-estrellas"></div>
 
-        <!-- CARTA Y SOBRE -->
         <div class="seccion-sobre">
             <div class="sobre-wrapper" id="sobre">
                 <div class="tapa"></div>
                 <div class="sello" id="sello-carta" onclick="abrirCarta()">❤️</div>
                 <div class="hoja-carta">
-Para siempre, Yo
-                    Guardar carta ❤️
-                    El tiempo a tu lado...
+                    <div class="texto-carta" id="texto-tipeado"></div>
+                    <div class="firma" id="firma-carta" style="display:none;">Para siempre, Yo</div>
+                    <button id="btn-cerrar-carta" class="btn-cerrar-carta" onclick="cerrarCarta()" style="display: none;">Guardar carta ❤️</button>
+El tiempo a tu lado...
                     ❤️ 5Meses
                     00Días
                     00Horas
@@ -108,203 +101,182 @@ Para siempre, Yo
                     Felices 5 meses ❤️
                     Gracias por llegar a mi vida.
                     Te amo mucho muchote.
-        <!-- MOTOR DE PROGRAMACIÓN INTEGRADO DIRECTAMENTE -->
-    <script>
-        // 1. CONFIGURACIÓN: Coloca aquí el año, mes y día exacto de su aniversario.
-        const fechaInicio = new Date(2026, 1, 12, 20, 0, 0);
-
-        const textoAmor = `Hola, mi amorcito. ❤️
-
-Hoy cumplimos cinco meses juntos, y aunque parezca poco tiempo, siento que has llenado mi vida de una manera que nunca imaginé. Quería hacerte esta pequeña sorpresa para recordarte lo muchísimo que te amo y lo agradecida que estoy con Dios por haberte puesto en mi camino.
-
-Desde que llegaste a mi vida, todo ha ido mejor. Me has dado una paz y una felicidad que jamás había sentido. Contigo todo se siente tan bonito, tan sano, tan tranquilo y tan perfecto, que a veces todavía me cuesta creer la suerte que tengo de tenerte a mi lado.
-
-Gracias por cada risa, por cada abrazo, por cada momento, por escucharme, por cuidarme y por quererme de una forma tan bonita. Gracias por hacerme sentir amada todos los días y por demostrarme que el amor puede ser sincero, respetuoso y lleno de paz.
-
-Eres el hombre más lindo que he conocido, no solo por lo guapo que eres, sino por el corazón tan hermoso que tienes. Eres bueno, noble, paciente y tienes una manera de hacer que cualquier día sea especial con solo estar conmigo.
-
-No sabes cuánto deseo que la vida siempre te regale cosas buenas, porque te las mereces todas y aún más. Mi mayor deseo es verte feliz, verte cumplir tus sueños y poder estar a tu lado para celebrar cada uno de ellos.
-
-Quiero seguir escribiendo esta historia contigo durante muchísimo tiempo. Si Dios nos lo permite, quiero caminar a tu lado por el resto de mi vida, amarte mientras Él me preste vida y seguir eligiéndote todos los días, una y otra vez.
-
-Eres el amor de mi vida y no imagino un futuro en el que no estés tú. No sé qué sería de mí sin ti, porque contigo encontré un hogar, un mejor amigo y el amor más bonito que he conocido.
-
-Le pido a Dios que siempre nos cuide, que bendiga nuestra relación, que nos ayude a superar cualquier dificultad y que nos permita celebrar muchos meses, años y toda una vida juntos.
-
-Gracias por existir, por llegar a mi vida y por convertir estos cinco meses en los más felices que he vivido.
-
-Te amo con todo mi corazón.
-
-Felices cinco meses, mi niño de ojos bonitos. ❤️`;
-
-        let corriendo = false;
-        function iniciarExperienciaAmor() {
-            if (corriendo) return;
-            corriendo = true;
-
-            const audio = document.getElementById('musica');
-            const btnMusica = document.getElementById('btn-musica');
-            if (audio) {
-                audio.play().then(() => {
+                    // CONFIGURACIÓN DE TU FECHA REAL
+                    const fechaInicio = new Date(2026, 1, 12, 20, 0, 0);
+                    const textoAmor = `Hola, mi amorcito. ❤️
+                    Hoy cumplimos cinco meses juntos, y aunque parezca poco tiempo, siento que has llenado mi vida de una manera que nunca imaginé. Quería hacerte esta pequeña sorpresa para recordarte lo muchísimo que te amo y lo agradecida que estoy con Dios por haberte puesto en mi camino.
+                    Desde que llegaste a mi vida, todo ha ido mejor. Me has dado una paz y una felicidad que jamás había sentido. Contigo todo se siente tan bonito, tan sano, tan tranquilo y tan perfecto, que a veces todavía me cuesta creer la suerte que tengo de tenerte a mi lado.
+                    Gracias por cada risa, por cada abrazo, por cada momento, por escucharme, por cuidarme y por quererme de una forma tan bonita. Gracias por hacerme sentir amada todos los días y por demostrarme que el amor puede ser sincero, respetuoso y lleno de paz.
+                    Eres el hombre más lindo que he conocido, no solo por lo guapo que eres, sino por el corazón tan hermoso que tienes. Eres bueno, noble, paciente y tienes una manera de hacer que cualquier día sea especial con solo estar conmigo.
+                    No sabes cuánto deseo que la vida siempre te regale cosas buenas, porque te las mereces todas y aún más. Mi mayor deseo es verte feliz, verte cumplir tus sueños y poder estar a tu lado para celebrar cada uno de ellos.
+                    Quiero seguir escribiendo esta historia contigo durante muchísimo tiempo. Si Dios nos lo permite, quiero caminar a tu lado por el resto de mi vida, amarte mientras Él me preste vida y seguir eligiéndote todos los días, una y otra vez.
+                    Eres el amor de mi vida y no imagino un futuro en el que no estés tú. No sé qué sería de mí sin ti, porque contigo encontré un hogar, un mejor amigo y el amor más bonito que he conocido.
+                    Le pido a Dios que siempre nos cuide, que bendiga nuestra relación, que nos ayude a superar cualquier dificultad y que nos permita celebrar muchos meses, años y toda una vida juntos.
+                    Gracias por existir, por llegar a mi vida y por convertir estos cinco meses en los más felices que he vivido.
+                    Te amo con todo mi corazón.
+                    Felices cinco meses, mi niño de ojos bonitos. ❤️`;
+                    
+                    let corriendo = false;
+                    function iniciarExperienciaAmor() {
+                    if (corriendo) return;
+                    corriendo = true;
+                    
+                    const audio = document.getElementById('musica');
+                    const btnMusica = document.getElementById('btn-musica');
+                    if (audio) {audio.play().then(() => {
                     if (btnMusica) btnMusica.innerText = "⏸";
-                }).catch(e => console.log("Audio retenido por el navegador"));
-            }
-
-            document.getElementById('icono-central').style.display = 'none';
-            const txt1 = document.getElementById('txt1');
-            const txt2 = document.getElementById('txt2');
-            const bienvenida = document.getElementById('bienvenida');
-
-            txt1.style.opacity = 1;
-            setTimeout(() => { txt1.style.opacity = 0; }, 2500);
-            setTimeout(() => { txt2.style.opacity = 1; }, 3300);
-            setTimeout(() => { txt2.style.opacity = 0; }, 5800);
-            setTimeout(() => {
-                bienvenida.style.opacity = 0;
-                setTimeout(() => {
-                    bienvenida.style.display = 'none';
+                    }).catch(e => console.log("Audio retenido"));
+                    }
+                    
+                    document.getElementById('icono-central').style.display = 'none';
+                    const txt1 = document.getElementById('txt1');
+                    const txt2 = document.getElementById('txt2');
+                    const bienvenida = document.getElementById('bienvenida');
+                    
+                    txt1.style.opacity = 1;
+                    setTimeout(() => { txt1.style.opacity = 0; }, 2500);
+                    setTimeout(() => { txt2.style.opacity = 1; }, 3300);
+                    setTimeout(() => { txt2.style.opacity = 0; }, 5800);
+                    setTimeout(() => {bienvenida.style.opacity = 0;
+                    setTimeout(() => {bienvenida.style.display = 'none';
                     iniciarElementosAmbiente();
-                }, 1000);
-            }, 6600);
-        }
-
-        function iniciarElementosAmbiente() {
-            const capaEstrellas = document.getElementById('capa-estrellas');
-            if (capaEstrellas) {
-                for (let i = 0; i < 50; i++) {
-                    let estrella = document.createElement('div');
-                    estrella.className = 'estrella';
-                    estrella.style.width = estrella.style.height = Math.random() * 3 + 'px';
-                    estrella.style.top = Math.random() * 100 + '%';
-                    estrella.style.left = Math.random() * 100 + '%';
-                    estrella.style.animationDelay = Math.random() * 2 + 's';
-                    capaEstrellas.appendChild(estrella);
-                }
-            }
-            setInterval(() => {
-                let corazon = document.createElement('div');
-                corazon.className = 'corazon-flotante';
-                corazon.innerText = '❤️';
-                corazon.style.left = Math.random() * 90 + 'vw';
-                corazon.style.fontSize = Math.random() * 15 + 10 + 'px';
-                corazon.style.animationDuration = Math.random() * 4 + 4 + 's';
-                let b = document.getElementById('scroll-area');
-                if (b) b.appendChild(corazon);
-                setTimeout(() => corazon.remove(), 8000);
-            }, 900);
-        }
-
-        function toggleMusica() {
-            const audio = document.getElementById('musica');
-            const btnMusica = document.getElementById('btn-musica');
-            if (audio && audio.paused) {
-                audio.play().catch(e => console.log(e));
-                if (btnMusica) btnMusica.innerText = "⏸";
-            } else if (audio) {
-                audio.pause();
-                if (btnMusica) btnMusica.innerText = "▶";
-            }
-        }
-
-        function toggleModoNoche() {
-            document.body.classList.toggle('modo-noche-activo');
-            const btn = document.getElementById('btn-noche');
-            if (btn) btn.innerText = document.body.classList.contains('modo-noche-activo') ? "☀️" : "🌙";
-        }
-
-        let cartaAbierta = false;
-        function abrirCarta() {
-            if (cartaAbierta) return;
-            cartaAbierta = true;
-            if (navigator.vibrate) navigator.vibrate(40);
-
-            document.getElementById('sello-carta').style.transform = 'scale(0)';
-            document.getElementById('sobre').classList.add('abierto');
-
-            setTimeout(() => {
-                const contenedorTexto = document.getElementById('texto-tipeado');
-                contenedorTexto.innerHTML = ""; 
-
-                const caracteres = Array.from(textoAmor);
-                let i = 0;
-
-                function escribir() {
-    if (i < caracteres.length) {
-        // CORRECCIÓN: Usamos caracteres[i] para que SOLO escriba la carta letra por letra
-        contenedorTexto.innerHTML += caracteres[i]; 
-        let actual = caracteres[i];
-        i++;
-        
-        let delay = 35;
-        if (actual === '.' || actual === ',') delay = 250;
-        
-        setTimeout(escribir, delay);
-    } else {
-        // Cuando termina de escribir, muestra la firma y el botón de guardar
-        document.getElementById('firma-carta').style.display = 'block';
-        document.getElementById('btn-cerrar-carta').style.display = 'block';
-        
-        // Muestra las secciones de abajo de forma limpia
-        document.getElementById('seccion-contador').style.opacity = 1;
-        document.getElementById('seccion-galeria').style.opacity = 1;
-        document.getElementById('seccion-final').style.opacity = 1;
-        iniciarContador();
-    }
-}
-                
-        function cerrarCarta() {
-            document.getElementById('sobre').classList.remove('abierto');
-        }
-
-        function iniciarContador() {
-            setInterval(() => {
-                const ahora = new Date();
-                let diferencia = ahora - fechaInicio;
-                let dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
-                let horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                
-                document.getElementById('c-dias').innerText = dias < 10 ? '0' + dias : dias;
-                document.getElementById('c-horas').innerText = horas < 10 ? '0' + horas : horas;
-            }, 1000);
-        }
-
-        let lluviaActivada = false;
-        window.addEventListener('scroll', () => {
-            const seccionFinal = document.getElementById('seccion-final');
-            if (seccionFinal) {
-                const posicion = seccionFinal.getBoundingClientRect().top;
-                const pantallaAltura = window.innerHeight;
-                if (posicion < pantallaAltura && !lluviaActivada && cartaAbierta) {
-                    lluviaActivada = true;
-                    activarLluviaFinal();
-                }
-            }
-        });
-
-        function activarLluviaFinal() {
-            setInterval(() => {
-                let gota = document.createElement('div');
-                gota.className = 'gota-corazon';
-                gota.innerText = ['❤️', '💖', '✨', '💕'][Math.floor(Math.random() * 4)];
-                gota.style.left = Math.random() * 100 + 'vw';
-                gota.style.fontSize = Math.random() * 20 + 15 + 'px';
-                gota.style.animationName = 'caidaCorazones';
-                document.body.appendChild(gota);
-                setTimeout(() => gota.remove(), 3500);
-            }, 200);
-        }
-
-        document.addEventListener('touchmove', (e) => {
-            if (e.touches && e.touches) {
-                let touch = e.touches;
-                let chispa = document.createElement('div');
-                chispa.className = 'chispa';
-                chispa.style.top = touch.pageY + 'px';
-                chispa.style.left = touch.pageX + 'px';
-                document.body.appendChild(chispa);
-                setTimeout(() => chispa.remove(), 500);
-            }
-        }, { passive: true });
-    </script>
-</body>
-</html>
+                    }, 1000);
+                    }, 6600);
+                    }
+                    
+                    function iniciarElementosAmbiente() {
+                    const capaEstrellas = document.getElementById('capa-estrellas');
+                    if (capaEstrellas) {
+                    for (let i = 0; i < 50; i++) {
+                        let estrella = document.createElement('div');
+                        estrella.className = 'estrella';
+                        estrella.style.width = estrella.style.height = Math.random() * 3 + 'px';
+                        estrella.style.top = Math.random() * 100 + '%';
+                        estrella.style.left = Math.random() * 100 + '%';
+                        estrella.style.animationDelay = Math.random() * 2 + 's';
+                        capaEstrellas.appendChild(estrella);
+                        }
+                        }
+                        
+                        setInterval(() => {
+                        let corazon = document.createElement('div');
+                        corazon.className = 'corazon-flotante';
+                        corazon.innerText = '❤️';
+                        corazon.style.left = Math.random() * 90 + 'vw';
+                        corazon.style.fontSize = Math.random() * 15 + 10 + 'px';
+                        corazon.style.animationDuration = Math.random() * 4 + 4 + 's';
+                        let b = document.getElementById('scroll-area');
+                        if (b) b.appendChild(corazon);
+                        setTimeout(() => corazon.remove(), 8000);
+                        }, 900);
+                        }
+                        
+                        function toggleMusica() {
+                        const audio = document.getElementById('musica');
+                        const btnMusica = document.getElementById('btn-musica');
+                        if (audio && audio.paused) {
+                        audio.play().catch(e => console.log(e));
+                        if (btnMusica) btnMusica.innerText = "⏸";
+                        } else if (audio) {
+                        audio.pause();
+                        if (btnMusica) btnMusica.innerText = "▶";
+                        }
+                        }
+                        
+                        function toggleModoNoche() {
+                        document.body.classList.toggle('modo-noche-activo');
+                        const btn = document.getElementById('btn-noche');
+                        if (btn) btn.innerText = document.body.classList.contains('modo-noche-activo') ? "☀️" : "🌙";
+                        }
+                        
+                        let cartaAbierta = false;
+                        function abrirCarta() {
+                        if (cartaAbierta) return; 
+                        cartaAbierta = true;
+                        if (navigator.vibrate) navigator.vibrate(40);
+                        
+                        document.getElementById('sello-carta').style.transform = 'scale(0)';
+                        document.getElementById('sobre').classList.add('abierto');
+                        
+                        setTimeout(() => {
+                        const contenedorTexto = document.getElementById('texto-tipeado');
+                        contenedorTexto.innerHTML = "";
+                        
+                        const caracteres = Array.from(textoAmor);
+                        let idx = 0;
+                        
+                        function escribir() {
+                        if (idx < caracteres.length) {
+                                    contenedorTexto.innerHTML += caracteres[idx];
+                                    let actual = caracteres[idx];
+                                    idx++;
+                                    let delay = 35;
+                                    if (actual === '.' || actual === ',') delay = 250;
+                            
+                            setTimeout(escribir, delay);
+                            } else {
+                            document.getElementById('firma-carta').style.display = 'block';
+                            document.getElementById('btn-cerrar-carta').style.display = 'block';
+                            document.getElementById('seccion-contador').style.opacity = 1;
+                            document.getElementById('seccion-galeria').style.opacity = 1;
+                            document.getElementById('seccion-final').style.opacity = 1;
+                            iniciarContador();
+                            }
+                            }
+                            escribir();
+                            }, 1600);
+                            }
+                            
+                            function cerrarCarta() {
+                            document.getElementById('sobre').classList.remove('abierto');
+                            }
+                            
+                            function iniciarContador() {
+                            setInterval(() => {
+                            const ahora = new Date();
+                            let diferencia = ahora - fechaInicio;
+                            let dias = Math.floor(diferencia / (1000 * 60 * 60 * 24));
+                            let horas = Math.floor((diferencia % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                            
+                            document.getElementById('c-dias').innerText = dias < 10 ? '0' + dias : dias;
+                                document.getElementById('c-horas').innerText = horas < 10 ? '0' + horas : horas;
+                                    }, 1000);
+                                    }
+                                    
+                                    let lluviaActivada = false;
+                                    window.addEventListener('scroll', () => {
+                                    const seccionFinal = document.getElementById('seccion-final');
+                                    if (seccionFinal) {
+                                    const posicion = seccionFinal.getBoundingClientRect().top;
+                                    const pantallaAltura = window.innerHeight;
+                                    if (posicion < pantallaAltura && !lluviaActivada && cartaAbierta) {
+                                                     lluviaActivada = true;
+                                                     activarLluviaFinal();
+                                                     }
+                                                     }
+                                                     });
+                                                     
+                                                     function activarLluviaFinal() {
+                                                     setInterval(() => {
+                                        let gota = document.createElement('div');
+                                        gota.className = 'gota-corazon';
+                                        gota.innerText = ['❤️', '💖', '✨', '💕'][Math.floor(Math.random() * 4)];
+                                        gota.style.left = Math.random() * 100 + 'vw';
+                                        gota.style.fontSize = Math.random() * 20 + 15 + 'px';
+                                        gota.style.animationName = 'caidaCorazones';
+                                        document.body.appendChild(gota);
+                                        setTimeout(() => gota.remove(), 3500);
+                                        }, 200);
+                                        }
+                                        
+                                        document.addEventListener('touchmove', (e) => {
+                                        if (e.touches && e.touches[0]) {
+                                        let touch = e.touches[0];
+                                        let chispa = document.createElement('div');
+                                        chispa.className = 'chispa';
+                                        chispa.style.top = touch.pageY + 'px';
+                                        chispa.style.left = touch.pageX + 'px';
+                                        document.body.appendChild(chispa);
+                                        setTimeout(() => chispa.remove(), 500);
+                                        }
+                                        }, { passive: true });
